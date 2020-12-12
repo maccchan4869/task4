@@ -14,21 +14,14 @@ window.onload = () => {
 
   const setEvent = () => {
     // 開始ボタン押下時の処理
-    btnStart.addEventListener('click', () => {
+    btnStart.addEventListener('click', async () => {
       title.textContent = '取得中';
       question.textContent = '少々お待ちください';
       btnStart.style.display = 'none';
-      fetch('https://opentdb.com/api.php?amount=10&type=multiple')
-        .then((res)=>{
-          if(res.ok){
-            return( res.text() );
-          }
-        })
-        .then((text)=>{
-          const json = JSON.parse(text);
-          questions = json.results;
-          dispQuestion();
-        });
+      const response = await fetch('https://opentdb.com/api.php?amount=10&type=multiple');
+      const json = await response.json();
+      questions = json.results;
+      dispQuestion();
     });
 
     // ホームに戻るボタン押下時の処理
